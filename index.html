@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lifeway — Register Your Warranty</title>
+<title>Lifeway â€” Register Your Warranty</title>
 <style>
   :root{--brand:#e8402a;--brand-dark:#c5331f;--ink:#1a1a1a;--muted:#5c5c5c;--line:#e3d9d6;--bg:#fff5f3;--ok:#0f9d58}
   *{box-sizing:border-box}
@@ -39,11 +39,11 @@
   <div class="wrap">
     <span class="badge">LIFEWAY</span>
     <h1>Register your warranty</h1>
-    <p class="lead">Beard Growth Spray — choose whichever is easier for you.</p>
+    <p class="lead"><span id="leadProduct">your Lifeway product</span> â€” choose whichever is easier for you.</p>
 
     <!-- OPTION 1: prefilled email (auto-attempted on load) -->
     <div class="card">
-      <h2>Option 1 — Send a quick email</h2>
+      <h2>Option 1 â€” Send a quick email</h2>
       <p>Opens your mail app with the details ready. Just add your purchase info and tap Send.</p>
       <a class="btn" id="emailBtn" href="#">Register by email</a>
     </div>
@@ -52,30 +52,45 @@
 
     <!-- OPTION 2: online form (Google Forms) -->
     <div class="card">
-      <h2>Option 2 — Fill in our online form</h2>
-      <p>No email app needed — submit directly in your browser.</p>
-      <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSf9kVZKHyDMHDpzAsEQoruH_5UtABwEiPS2yRzPqKpZ-XhIcg/viewform" target="_blank" rel="noopener">Open registration form</a>
+      <h2>Option 2 â€” Fill in our online form</h2>
+      <p>No email app needed â€” submit directly in your browser.</p>
+      <a class="btn" id="formBtn" href="https://docs.google.com/forms/d/e/1FAIpQLSf9kVZKHyDMHDpzAsEQoruH_5UtABwEiPS2yRzPqKpZ-XhIcg/viewform" target="_blank" rel="noopener">Open registration form</a>
     </div>
 
     <p class="foot">Questions? <a href="mailto:cslifeway@outlook.com">cslifeway@outlook.com</a></p>
   </div>
 
 <script>
-  // ===== prefilled email (Option 1) =====
+  // ====== Multi-product config ======
+  // Add new products here. URL query: ?p=KEY  ->  shows productName.
+  // Example: ?p=mouthguard, ?p=beardspray, ?p=posture, ?p=kneesleeve
+  // Unknown / missing key falls back to "your Lifeway product".
+  var PRODUCTS = {
+    mouthguard:   "Mouth Guard",
+    beardspray:   "Beard Growth Spray",
+    posture:      "Posture Corrector",
+    kneesleeve:   "Compression Knee Sleeve"
+    // åŠ æ–°äº§å“: åœ¨è¿™é‡ŒåŠ ä¸€è¡Œ key: "Product Display Name",
+  };
+
+  // Parse ?p= from URL
+  var params = new URLSearchParams(window.location.search);
+  var pKey = params.get("p");
+  var productName = PRODUCTS[pKey] || "your Lifeway product";
+
+  // Inject product name into the lead line
+  document.getElementById("leadProduct").textContent = productName;
+
+  // ====== Option 1: prefilled email ======
   var TO = "cslifeway@outlook.com";
-  var SUBJECT = "Lifeway Warranty Registration";
+  var SUBJECT = "ã€Lifewayã€‘Request to Activate My Product Warranty";
   var BODY =
-    "Hello Lifeway Team,\n\n" +
-    "I would like to register the warranty for my product.\n\n" +
-    "Product: Lifeway Beard Growth Spray\n" +
-    "Where purchased (e.g. Amazon): \n" +
-    "Order number: \n" +
-    "Purchase date: \n\n" +
-    "My contact details:\n" +
-    "Full name: \n" +
-    "Email: \n" +
-    "Phone (optional): \n\n" +
-    "Thank you.";
+    "Hello,\n" +
+    "I recently purchased your product and would like to activate my warranty.\n" +
+    "Please help me complete the activation process.\n" +
+    "Thank you very much!\n" +
+    "Best regards,\n" +
+    "[Order Number: _____ ] (optional)";
   var mailto = "mailto:" + TO +
     "?subject=" + encodeURIComponent(SUBJECT) +
     "&body=" + encodeURIComponent(BODY);
