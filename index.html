@@ -50,50 +50,11 @@
 
     <div class="or">OR</div>
 
-    <!-- OPTION 2: web form, submits straight to your inbox -->
+    <!-- OPTION 2: online form (Google Forms) -->
     <div class="card">
-      <h2>Option 2 — Fill in this form</h2>
-      <p>No email app needed. We'll receive it directly.</p>
-      <form id="form" action="https://api.web3forms.com/submit" method="POST">
-        <!-- Get a free key for cslifeway@outlook.com at web3forms.com, paste it below -->
-        <input type="hidden" name="access_key" value="YOUR-WEB3FORMS-ACCESS-KEY">
-        <input type="hidden" name="subject" value="Lifeway Warranty Registration">
-        <input type="hidden" name="from_name" value="Lifeway Warranty Form">
-        <input type="hidden" name="Product" value="Lifeway Beard Growth Spray">
-
-        <label>Full name <span class="req">*</span></label>
-        <input type="text" name="Full name" required>
-
-        <label>Email <span class="req">*</span></label>
-        <input type="email" name="Email" required>
-
-        <div class="row">
-          <div>
-            <label>Where purchased</label>
-            <select name="Where purchased">
-              <option value="">Select...</option>
-              <option>Amazon</option><option>Brand website</option>
-              <option>Retail store</option><option>Other</option>
-            </select>
-          </div>
-          <div>
-            <label>Purchase date</label>
-            <input type="date" name="Purchase date">
-          </div>
-        </div>
-
-        <label>Order number</label>
-        <input type="text" name="Order number" placeholder="Optional">
-
-        <button type="submit" class="btn submit">Submit registration</button>
-      </form>
-    </div>
-
-    <!-- success message -->
-    <div class="ok" id="ok">
-      <div class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
-      <h1>You're registered!</h1>
-      <p class="lead">Thanks — we've received your details.</p>
+      <h2>Option 2 — Fill in our online form</h2>
+      <p>No email app needed — submit directly in your browser.</p>
+      <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSf9kVZKHyDMHDpzAsEQoruH_5UtABwEiPS2yRzPqKpZ-XhIcg/viewform" target="_blank" rel="noopener">Open registration form</a>
     </div>
 
     <p class="foot">Questions? <a href="mailto:cslifeway@outlook.com">cslifeway@outlook.com</a></p>
@@ -120,30 +81,9 @@
     "&body=" + encodeURIComponent(BODY);
   document.getElementById("emailBtn").setAttribute("href", mailto);
 
-  // Auto-attempt to open the mail app. If blocked, the buttons/form are the fallback.
+  // Auto-attempt to open the mail app. If blocked, the buttons are the fallback.
   window.addEventListener("load", function () {
     setTimeout(function () { window.location.href = mailto; }, 800);
-  });
-
-  // ===== form submit (Option 2) — posts to Web3Forms, shows inline success =====
-  document.getElementById("form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var form = e.target;
-    fetch(form.action, { method: "POST", body: new FormData(form), headers: { "Accept": "application/json" } })
-      .then(function (r) { return r.json(); })
-      .then(function (res) {
-        if (res.success) {
-          form.parentElement.style.display = "none";
-          document.querySelector(".or").style.display = "none";
-          document.querySelectorAll(".card")[0].style.display = "none";
-          document.getElementById("ok").classList.add("show");
-        } else {
-          alert("Sorry, something went wrong. Please use the email option above.");
-        }
-      })
-      .catch(function () {
-        alert("Sorry, something went wrong. Please use the email option above.");
-      });
   });
 </script>
 </body>
